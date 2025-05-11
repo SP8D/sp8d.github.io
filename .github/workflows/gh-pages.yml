@@ -17,6 +17,8 @@ jobs:
           node-version: 18
       - run: npm ci
       - run: npm run build
+      - run: touch out/.nojekyll
+        name: Add .nojekyll to prevent Jekyll processing
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v4
         with:
