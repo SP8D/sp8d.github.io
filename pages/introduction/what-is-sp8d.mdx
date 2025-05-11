@@ -1,0 +1,171 @@
+---
+title: "Introduction: What is SP8D?"
+---
+
+import { Callout } from "nextra/components";
+
+# Introduction: What is SP8D?
+
+> **SP8D** is a high-performance protocol for moving data instantly, reliably, and observably between concurrent agents in the browser or Node.js. Built for real-time web, AI, and finance, it solves the hardest concurrency problems—without compromise.
+
+---
+
+<Callout type="warning" title="Why Not postMessage?">
+  Standard browser messaging APIs like <code>postMessage</code> and{" "}
+  <code>MessageChannel</code> suffer from unpredictable latency, missed updates,
+  and poor debuggability. SP8D is designed to solve these pain points for
+  demanding, real-time applications.
+</Callout>
+
+## Why Not Just Use postMessage or MessageChannel?
+
+- Slow and unpredictable latency
+- Opaque: hard to debug and reason about
+- Missed updates and lost messages
+- Debugging nightmares
+
+---
+
+## What Makes SP8D Different?
+
+<Callout type="info" title="What Sets SP8D Apart?">
+  SP8D offers lock-free, slot-based concurrency, bounded memory, live
+  diagnostics, and built-in recovery—making it uniquely suited for high-stakes,
+  real-time, and multi-agent applications.
+</Callout>
+
+- **Lock-Free, Slot-Based Protocol:** Uses atomic operations for true parallelism—no server roundtrips, no event-loop blocking, no lock contention.
+- **Bounded and Predictable:** Always a fixed memory footprint, explicit backpressure—no risk of memory leaks or runaway processes.
+- **Segmented and Scalable:** Architected for many producers/consumers, scales linearly with your workload.
+- **Radically Observable:** Live diagnostics for every slot, segment, and operation—see conflicts, errors, and lag in real time.
+- **Battle-Tested Recovery:** Built-in recovery (sweeper) mechanism—survives thread death, browser hiccups, and adversarial loads.
+- **AI-First and Finance-Ready:** Designed for demanding real-time and multi-agent flows, with specific integration points for AI, ML, and analytics.
+
+---
+
+## Who Is SP8D For?
+
+- **AI Developers:** Need agent-to-agent or copilot collaboration, without postMessage pain.
+- **Fintech Engineers:** Building ultra-low-latency trading, analytics, or compliance-sensitive UIs.
+- **Web Performance Experts:** Who know why browser threads are a bottleneck, and want to break free.
+- **Teams moving past MVP:** Where growth, reliability, and observability now matter as much as speed.
+
+---
+
+## When _Not_ to Use SP8D
+
+<Callout type="warning" title="When Not to Use SP8D">
+  SP8D is not ideal for unbounded message queues, trivial fire-and-forget comms,
+  or environments lacking <code>SharedArrayBuffer</code> and{" "}
+  <code>Atomics</code> support (very old browsers, strict CSP).
+</Callout>
+
+- Your app requires unbounded message queues or trivial best-effort “fire and forget” comms.
+- You only have a single event producer and consumer and never expect contention.
+- Browser SharedArrayBuffer and Atomics are not supported (very old browsers, highly restricted CSP).
+
+---
+
+## Architecture at a Glance
+
+<Callout type="info" title="Architecture Overview">
+  SP8D channels use lock-free, slot-based buffers with live diagnostics,
+  supporting multiple producers and consumers for real-time, observable data
+  flow.
+</Callout>
+
+```mermaid
+%% Diagram: SP8D channel architecture with multiple producers/consumers, slots, and diagnostics
+%% Accessible description: Multiple producers send data to a lock-free SP8D channel, which uses SharedArrayBuffer and Atomics for slots, and supports multiple consumers and live diagnostics.
+graph TD
+    Producer1(Producer 1)
+    Producer2(Producer 2)
+    Channel(SP8D Channel)
+    Slots(Slots: SharedArrayBuffer + Atomics)
+    Consumer1(Consumer 1)
+    Consumer2(Consumer 2)
+    Diagnostics(Diagnostics)
+
+    Producer1 -->|send| Channel
+    Producer2 -->|send| Channel
+    Channel -->|recv| Consumer1
+    Channel -->|recv| Consumer2
+    Channel --> Slots
+    Diagnostics -.-> Channel
+```
+
+<sub>
+  SP8D enables multiple producers and consumers to communicate through a
+  lock-free, observable channel with live diagnostics.
+</sub>
+
+---
+
+## SP8D vs. postMessage, MessageChannel, and BroadcastChannel
+
+<Callout type="info" title="Comparison Table">
+  See how SP8D compares to standard browser messaging APIs in terms of
+  performance, reliability, and observability.
+</Callout>
+
+Here’s how SP8D stacks up against common browser messaging APIs:
+
+| Feature                 | postMessage  | MessageChannel | BroadcastChannel | SP8D |
+| ----------------------- | ------------ | -------------- | ---------------- | ---- |
+| Lock-free               | ❌           | ❌             | ❌               | ✅   |
+| Bounded/Backpressure    | ❌           | ❌             | ❌               | ✅   |
+| Observable/Diagnostics  | ❌           | ❌             | ❌               | ✅   |
+| Predictable Latency     | ❌           | ❌             | ❌               | ✅   |
+| Multi-producer/consumer | 🚫 (complex) | 🚫 (complex)   | ✅               | ✅   |
+
+<sub>❌ = Not supported, 🚫 = Possible but complex</sub>
+
+---
+
+## How It Works
+
+<Callout type="info" title="How It Works">
+  Producers send data to the channel, which relays messages to consumers and
+  emits live diagnostics for observability.
+</Callout>
+
+```mermaid
+%% Sequence diagram: Producer sends, Channel relays, Consumer receives, Diagnostics observes
+%% Accessible description: Producer sends data to Channel, Channel relays to Consumer, Diagnostics observes events.
+sequenceDiagram
+    participant Producer
+    participant Channel
+    participant Consumer
+    participant Diagnostics
+
+    Producer->>Channel: send(data)
+    Channel->>Consumer: recv()
+    Channel->>Diagnostics: emit(event)
+```
+
+<sub>
+  SP8D channels enable real-time, observable data flow between producers and
+  consumers.
+</sub>
+
+---
+
+<Callout type="tip" title="Key Features">
+  <ul>
+    <li>
+      <b>💡 Lock-Free:</b> No thread contention, ever.
+    </li>
+    <li>
+      <b>🛡️ Bounded:</b> Never leaks, never stalls.
+    </li>
+    <li>
+      <b>🔍 Observable:</b> See every event, live.
+    </li>
+  </ul>
+</Callout>
+
+- Lock-free, wait-free slot arbitration (no bottlenecks)
+- Fast, safe, observable reclamation (never stuck)
+- Segment sharding for scalable concurrency
+- Fine-grained error, state, and performance tracking (**radical observability**)
+- Max compatibility: Browser (WebWorker), Node.js (worker_threads), WASM

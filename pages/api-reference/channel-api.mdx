@@ -1,0 +1,314 @@
+---
+title: "API Reference: Channel"
+---
+
+import { Callout } from "nextra/components";
+
+# API Reference: Channel
+
+> **The `Channel` API is at the heart of SP8D:** It gives you explicit, lock-free, slot-driven control over cross-thread messaging—plus direct access to real-time diagnostics, segmentation, and backpressure handling.
+
+---
+
+## Channel Creation
+
+<Callout type="note" title="Quick intro">
+  Create a channel for real-time, lock-free messaging. Use{" "}
+  <code>createChannel</code> for new channels, <code>attachChannel</code> to
+  connect in another thread.
+</Callout>
+
+### `createChannel(options): { channel, buffer }`
+
+Creates a new SP8D channel, returning both the API object and the underlying `SharedArrayBuffer`.
+
+**Options:**
+
+- `slots` _(number, required)_ — Number of slots in the ring buffer.
+- `slotSize` _(number, required)_ — Max size (bytes) per payload.
+- `mode` _(string: "SPSC" | "MPSC" | "MPMC", optional)_ — Concurrency mode. Default: `"SPSC"`.
+- `segments` _(number)_ — Segments for increased scale. Default: `1`.
+- `sweepTimeoutMs` _(number)_ — Slot reclaim timeout (ms). Default: `50`.
+
+```ts copy
+const { channel, buffer } = createChannel({
+  slots: 16,
+  slotSize: 64,
+  mode: "MPMC",
+  segments: 2,
+});
+```
+
+### `attachChannel(buffer: SharedArrayBuffer): Channel`
+
+#### Use in a second thread/worker to attach to an existing channel’s buffer.
+
+```ts copy
+// In a worker thread/process
+const channel = attachChannel(buffer);
+```
+
+## Channel API: Core Methods
+
+<Callout type="info" title="How to use this section">
+  Methods are grouped by intent. Each group starts with a short intro and best
+  practices. Scan, deep-dive, or jump to what you need.
+</Callout>
+
+---
+
+### Send Data
+
+<Callout type="tip" title="Best Practice">
+  Use <code>trySend</code> in high-frequency or non-critical paths to avoid
+  exceptions. Use <code>send</code> when you must guarantee delivery or want to
+  catch errors.
+</Callout>
+
+#### `send(payload: ArrayBufferView, producerId?: number): boolean`
+
+Enqueue a message. Throws if full or payload too large. Use for critical, must-succeed sends.
+
+#### `trySend(payload: ArrayBufferView, producerId?: number): boolean`
+
+Enqueue a message. Returns `false` if full or payload too large—never throws. Use for non-blocking, best-effort sends.
+
+#### `sendAsync(payload: ArrayBufferView, producerId?: number, opts?): Promise<boolean>`
+
+Waits for a slot and sends. Supports timeout and abort. Use for async, backpressure-aware flows.
+
+```ts copy
+await channel.sendAsync(msg, myProducerId, { timeoutMs: 1000 });
+```
+
+---
+
+### Receive Data
+
+<Callout type="tip" title="Polling vs. Async">
+  Use <code>recvAsync</code> for event-driven flows, and <code>tryRecv</code>{" "}
+  for polling or non-blocking loops.
+</Callout>
+
+#### `recv(): Uint8Array | null`
+
+Synchronous receive. Returns `null` if empty. Use for polling or tight loops.
+
+```ts copy
+const next = channel.recv();
+if (next) process(next);
+```
+
+#### `tryRecv(): Uint8Array | null`
+
+Non-throwing, non-blocking receive. Returns `null` if empty.
+
+```ts copy
+const msg = channel.tryRecv();
+if (msg) process(msg);
+```
+
+#### `recvAsync(): Promise<Uint8Array | null>`
+
+Async receive. Waits for a message. Use for event-driven or awaitable flows.
+
+```ts copy
+const msg = await channel.recvAsync();
+```
+
+---
+
+### JSON Helpers
+
+<Callout type="warning" title="Gotcha">
+  JSON helpers are for quick prototyping. For production, prefer binary
+  serialization for performance and size.
+</Callout>
+
+#### `sendJSON(obj: object, producerId?: number): boolean`
+
+Send a JSON-serializable object. Throws if full or payload too large.
+
+#### `recvJSON(): object | null`
+
+Receive a JSON-serialized object. Returns `null` if empty or parse fails.
+
+---
+
+### Channel State
+
+<Callout type="tip" title="Status Checks">
+  Use <code>full()</code> and <code>empty()</code> to check channel status
+  before sending or receiving in tight loops.
+</Callout>
+
+#### `full(): boolean`
+
+Returns `true` if the channel is full (no slots available for sending).
+
+#### `empty(): boolean`
+
+Returns `true` if the channel is empty (no slots available for reading).
+
+---
+
+### Lifecycle & Control
+
+<Callout type="warning" title="Shutdown">
+  After <code>close()</code>, all send/recv methods will throw or return falsy.
+  Use <code>closeAsync</code> for graceful shutdowns in async environments.
+</Callout>
+
+#### `close(): void`
+
+Immediately closes the channel and all internal timers. Cleans up, resets all state. After `close()`, send/recv throw or return falsy.
+
+#### `closeAsync(): Promise<void>`
+
+Gracefully closes the channel and waits for all background tasks to stop.
+
+```ts copy
+await channel.closeAsync();
+```
+
+#### `reset(): void`
+
+Resets the channel to its initial state (empties all slots, resets counters). Does not reallocate the buffer.
+
+```ts copy
+channel.reset();
+```
+
+---
+
+### Diagnostics & Introspection
+
+<Callout type="tip" title="Best Practice">
+  Use <code>stats()</code> and <code>info()</code> for live monitoring and
+  debugging. Use <code>validate()</code> in tests to catch protocol errors
+  early.
+</Callout>
+
+<Callout type="info" title="Advanced: Async Iteration">
+  The channel can be used as an async iterator for idiomatic, event-driven
+  message consumption.
+</Callout>
+
+#### `stats(): ChannelStats`
+
+Returns a snapshot object of channel usage and health metrics.
+
+- `slots` — total slots
+- `used` — slots in use
+- `free` — slots available
+- `errors, conflicts, reclaimed` — counts of errors, producer/consumer collisions, and recovery sweeps
+
+#### `info(): string`
+
+Returns a human-readable string of the channel’s configuration (mode, size, segments).
+
+#### `validate(): void`
+
+Checks protocol invariants—throws if any slot is in an illegal state. Use in development/testing, not hot production loops.
+
+#### `[Symbol.asyncIterator](): AsyncIterator<Uint8Array, void>`
+
+The channel can be used as an async iterator:
+
+```ts copy
+for await (const msg of channel) {
+  // receive messages until channel.close()
+}
+```
+
+---
+
+## Advanced: Slot Status Internals
+
+<Callout type="info" title="Deep Dive">
+  For dashboards, monitoring, or debugging, access per-slot state directly.
+</Callout>
+
+- `slotStatus` (readonly Uint8Array[]) — current state for all slots
+- `slotClaimTimestamp` (readonly Uint32Array[]) — last claimed timestamp per slot
+
+[How to use for live dashboards →](https://harness.sp8d.com/)
+
+---
+
+## Diagnostics & Observability
+
+<Callout type="tip" title="Best Practice">
+  Use diagnostics in development and staging to catch protocol issues early.
+  Avoid running diagnostics in hot production loops unless you need live
+  monitoring.
+</Callout>
+
+```ts copy
+import { createChannelDiagnostics } from "@sp8d/diagnostics";
+const diagnostics = createChannelDiagnostics(channel, 100);
+diagnostics.onUpdate((stats) => {
+  console.log("SP8D Stats:", stats);
+});
+diagnostics.start();
+```
+
+See the [Diagnostics Guide →](/guides-and-howtos/faqs) for more.
+
+---
+
+## Troubleshooting
+
+<Callout type="warning" title="Gotcha">
+  Most issues stem from mismatched buffer sizes, incorrect slot counts, or using
+  the wrong concurrency mode. Double-check your channel creation options.
+</Callout>
+
+<Callout type="warning" title="Troubleshooting Reference">
+  Common issues are listed below. If you encounter persistent problems,
+  double-check your channel configuration and concurrency mode.
+</Callout>
+
+### Common Issues & Solutions
+
+- **Problem:** `send` or `trySend` always returns `false` or throws.
+  - **Solution:** Ensure the channel is not full. Check `slotSize` and payload size. For async flows, use `sendAsync` with a timeout.
+- **Problem:** `recv`/`tryRecv` always returns `null`.
+  - **Solution:** The channel is empty. Confirm that producers are sending data and that you are not reading faster than writing.
+- **Problem:** `attachChannel` throws or returns an unusable channel.
+  - **Solution:** Make sure the `SharedArrayBuffer` is valid and matches the expected structure (slots, slotSize, segments).
+- **Problem:** Diagnostics report protocol errors or slot conflicts.
+  - **Solution:** Check that all threads use the correct concurrency mode (SPSC, MPSC, MPMC) and that no two producers/consumers are racing in SPSC mode.
+- **Problem:** Channel appears to hang or deadlock.
+  - **Solution:** Avoid blocking the main thread. Use async methods and ensure all consumers/producers are running. For MPMC, ensure all parties are using unique IDs if required.
+
+---
+
+## Performance & Concurrency Tips
+
+<Callout type="tip" title="Performance Checklist">
+  For maximum throughput, tune <code>slots</code> and <code>slotSize</code> to
+  match your message rate and payload size. Use the minimal number of segments
+  needed for your concurrency model.
+</Callout>
+
+- Prefer `trySend`/`tryRecv` in tight loops to avoid blocking.
+- Use `sendAsync`/`recvAsync` for backpressure-aware, event-driven flows.
+- In high-concurrency scenarios, use the correct mode (`MPSC` or `MPMC`) and avoid sharing producer/consumer IDs.
+- Monitor diagnostics in staging to catch contention or reclaim issues before production.
+- Avoid frequent `reset()` in production; use it for test harnesses or controlled recovery only.
+- For lowest latency, keep `sweepTimeoutMs` low, but not zero—test for your workload.
+
+---
+
+## Related / Next
+
+<Callout type="info" title="Next Steps">
+  Explore diagnostics, concurrency patterns, and usage recipes to deepen your
+  understanding and optimize your implementation.
+</Callout>
+
+- [Channel diagnostics & live overlays →](/guides-and-howtos/faqs)
+- [Concurrency patterns and modes →](/principles/concurrency-models)
+- [Common usage recipes →](/quickstart/common-recipes)
+- [File an issue or contribute →](https://github.com/SP8D/sp8d)

@@ -1,0 +1,40 @@
+---
+title: "Frequently Asked Questions"
+---
+
+# Frequently Asked Questions
+
+## SharedArrayBuffer & Browser Support
+
+**Q:** Why do I get “Cannot use SharedArrayBuffer” or see errors about browser support?  
+**A:** Your browser or environment may lack SharedArrayBuffer/Atomics support, or you may need special headers (COOP/COEP). See installation requirements.
+
+## Diagnostics & Live Monitoring
+
+**Q:** How do I use diagnostics or monitor channel health?  
+**A:** Use `createChannelDiagnostics` for live stats and monitoring. See the API reference for details.
+
+## Backpressure & Buffer Full
+
+**Q:** What should I do if the channel is full or backpressured?  
+**A:** Use `sendAsync()` or handle retries. See code examples for patterns.
+
+## Protocol Errors & Debugging
+
+**Q:** What do protocol errors or slot conflicts mean?  
+**A:** They usually indicate concurrency mode mismatch or incorrect usage. Double-check your channel setup.
+
+## Async Iteration & Patterns
+
+**Q:** Can I use async iteration with channels?  
+**A:** Yes, channels support async iteration for event-driven consumption.
+
+## Broadcasting & MPMC
+
+**Q:** How do I broadcast or use MPMC patterns?  
+**A:** Use MPMC mode for multi-producer/multi-consumer. See concurrency models for details.
+
+## General
+
+**Q:** Still stuck or have another question?  
+**A:** Open an issue or check the docs for more details.

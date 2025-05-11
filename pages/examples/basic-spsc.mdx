@@ -1,0 +1,158 @@
+---
+title: "Examples: Basic SPSC"
+---
+
+import { Callout } from "nextra/components";
+
+# Example: Single-Producer, Single-Consumer (SPSC)
+
+The classic “lock-free queue” pattern—one producer, one consumer, highest throughput, zero overhead. SPSC is the fastest possible channel mode: no locks, no contention, and cache-friendly.
+
+<Callout type="tip" title="Why SPSC?">
+  **SPSC (Single-Producer, Single-Consumer)** channels are the gold standard for
+  ultra-low-latency, lock-free communication between exactly two threads or
+  tasks. Use this pattern when you need maximum throughput and absolute
+  ordering, with zero contention or ambiguity.
+</Callout>
+
+---
+
+## Minimal SPSC Example (_Node.js or Browser_)
+
+<Callout type="info" title="How to read this example">
+  This example walks you through the simplest SPSC channel: one producer, one
+  consumer, zero contention. Perfect for ultra-low-latency pipelines or thread
+  handoff. The diagram below shows the data flow.
+</Callout>
+
+```mermaid
+flowchart LR
+  Producer[Producer] -- send() --> Channel[SP8D SPSC Channel]
+  Channel -- recv() --> Consumer[Consumer]
+```
+
+<sub>
+  <strong>Producer</strong> uses <code>send()</code> to move data to the
+  channel. <strong>Consumer</strong> uses <code>recv()</code> to receive it.
+  This direct handoff is what enables SPSC's ultra-low latency and simplicity.
+</sub>
+
+```ts copy showLineNumbers
+import { createChannel } from "@sp8d/core";
+
+// Create an SPSC channel with 4 slots, each slot holding up to 16 bytes.
+const { channel } = createChannel({ slots: 4, slotSize: 16, mode: "SPSC" });
+
+// Producer sends messages
+for (let i = 0; i < 8; ++i) {
+  // Wait if channel is full (backpressure)
+  while (!channel.send(new Uint8Array([i, i * 10]))) {
+    // Buffer is full, so producer waits and retries (busy-wait)
+  }
+  console.log("Sent:", i);
+}
+
+// Consumer receives messages
+let received: Uint8Array | null;
+while ((received = channel.recv()) !== null) {
+  console.log("Received:", received);
+}
+```
+
+<Callout type="warning" title="Busy-Wait Warning">
+  The busy-wait loop (<code>while (!send)</code>) is for demonstration only. In
+  production, use <code>sendAsync()</code> or a backpressure-aware event loop to
+  avoid wasting CPU cycles.
+</Callout>
+
+### Async/Real-World Example
+
+For real-world, non-blocking usage, use <code>sendAsync()</code> and the async
+iterator as shown below.
+
+```ts copy
+// Producer (async)
+for (let i = 0; i < 8; ++i) {
+  await channel.sendAsync(new Uint8Array([i, i * 10]));
+  console.log("Sent:", i);
+}
+
+// Consumer (async)
+for await (const received of channel) {
+  console.log("Received:", received);
+}
+```
+
+---
+
+## What's happening?
+
+- **Producer:** Calls <code>send()</code> in a loop—respects backpressure if the buffer is full.
+- **Consumer:** Calls <code>recv()</code> repeatedly—gets every value, in order, with no races or drops.
+- **SPSC Mode Guarantee:** Guarantees simple “ping-pong” correctness: no overwrites, slot loss, or ambiguity.
+
+<Callout type="tip" title="Backpressure Handling">
+  Backpressure is critical for lossless, high-throughput systems. Notice the
+  producer waits (<code>while (!send)</code>) if the ring is full. This ensures
+  you never lose data—even under burst conditions.
+</Callout>
+
+<Callout type="info" title="What Should I See?">
+  The output below shows the expected send/receive order for this example. If
+  you run producer and consumer in separate threads, the interleaving may
+  differ, but all messages will be delivered in order.
+</Callout>
+
+```text
+Sent: 0
+Sent: 1
+Sent: 2
+Sent: 3
+Received: Uint8Array([0, 0])
+Received: Uint8Array([1, 10])
+Received: Uint8Array([2, 20])
+Received: Uint8Array([3, 30])
+Sent: 4
+Sent: 5
+Sent: 6
+Sent: 7
+Received: Uint8Array([4, 40])
+Received: Uint8Array([5, 50])
+Received: Uint8Array([6, 60])
+Received: Uint8Array([7, 70])
+```
+
+<Callout type="warning" title="Gotchas & Tips">
+  <ul>
+    <li>
+      <code>send()</code> returns <code>false</code> when full; always check for
+      backpressure.
+    </li>
+    <li>
+      <code>recv()</code> returns <code>null</code> when channel is empty.
+    </li>
+    <li>
+      For browser use, producer and consumer may be in separate threads—see
+      browser recipes.
+    </li>
+    <li>
+      For async use, see <code>recvAsync()</code> or the async iterator.
+    </li>
+    <li>
+      If you see dropped messages, check your slot count and backpressure
+      handling.
+    </li>
+    <li>For debugging, use diagnostics or enable verbose logging.</li>
+  </ul>
+</Callout>
+
+<Callout type="tip" title="Performance Note">
+  SPSC is the fastest mode, but only if you stick to the
+  single-producer/single-consumer contract. If you break this contract, you may
+  see data loss or protocol errors—use MPSC/MPMC for more complex patterns.
+</Callout>
+
+## Next / Related
+
+- [Common usage recipes →](/quickstart/common-recipes)
+- [File an issue or contribute →](https://github.com/SP8D/sp8d)
