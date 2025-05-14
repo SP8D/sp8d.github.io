@@ -6,9 +6,16 @@ export default {
   "api-reference": "API Reference",
   "guides-and-howtos": "Guides and How-Tos",
   examples: "Examples",
-  contact: {
-    title: "Demo Harness",
+  testHarness: {
+    title: "Test Harness",
     type: "page",
     href: "https://harness.sp8d.com",
+    newWindow: true,
+  },
+  contact: {
+    title: "Contact",
+    type: "page",
+    href: "mailto:admin@sp8d.com",
+    newWindow: true,
   },
 };

@@ -13,14 +13,34 @@
     "type": "git",
     "url": "git+https://github.com/SP8D/sp8d.github.io.git"
   },
-  "keywords": [],
+  "keywords": [
+    "sp8d",
+    "sp8d-core",
+    "sp8d-diagnostics",
+    "documentation",
+    "docs",
+    "API reference",
+    "guides",
+    "how-to",
+    "tutorials",
+    "concurrency",
+    "actor model",
+    "diagnostics",
+    "typescript",
+    "javascript",
+    "async",
+    "channels",
+    "web workers",
+    "multi-threading",
+    "copilot"
+  ],
   "author": "",
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/SP8D/sp8d.github.io/issues"
   },
   "homepage": "https://github.com/SP8D/sp8d.github.io#readme",
-  "description": "",
+  "description": "sp8d-docs: Comprehensive documentation, guides, and API reference for sp8d, sp8d-core, and sp8d-diagnostics. Learn concurrency, actor model, diagnostics, and more.",
   "dependencies": {
     "next": "^14.2.3",
     "nextra": "^3.3.1",
