@@ -1,6 +1,6 @@
 export default {
   project: { link: "https://github.com/SP8D/sp8d" },
-  docsRepositoryBase: "https://github.com/SP8D/sp8d.github.io/blob/main",
+  docsRepositoryBase: "https://github.com/SP8D/sp8d.github.io/blob/master",
   mermaid: true,
   readingTime: true,
   defaultShowCopyCode: true,
