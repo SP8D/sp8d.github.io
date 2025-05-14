@@ -1,10 +1,30 @@
 ---
-title: "Start Here: Product Philosophy & Overview"
+title: "SP8D: Ultra-Low-Latency Lock-Free Channels for JavaScript & Node.js"
+description: "Discover SP8D, the fastest lock-free, observable protocol for real-time, cross-thread communication in JavaScript and Node.js. Learn features, use cases, and how to get started with high-performance messaging."
+keywords:
+  [
+    "SP8D",
+    "lock-free channels",
+    "real-time messaging",
+    "AI concurrency",
+    "browser communication",
+    "SharedArrayBuffer",
+    "Atomics",
+    "multi-agent",
+    "diagnostics",
+    "JavaScript",
+    "Node.js",
+    "high-performance messaging",
+    "parallel programming",
+  ]
+canonical: "https://sp8d.github.io/"
 ---
 
 import { Callout } from "nextra/components";
 
-# SP8D — Ultra-Low-Latency, Lock-Free Channels for Real-Time AI and Finance
+SP8D is the leading open-source solution for ultra-low-latency, lock-free, real-time messaging and cross-thread communication in JavaScript and Node.js. Built for demanding AI, finance, and multi-agent applications, SP8D delivers blazing-fast, observable, and reliable data transfer for modern web and server environments.
+
+# SP8D: Ultra-Low-Latency Lock-Free Channels for JavaScript & Node.js
 
 > **The world’s first radically observable, lock-free, bounded protocol for cross-thread communication in browsers — designed for next-generation AI copilots, trading platforms, and multi-agent applications.**
 
@@ -49,8 +69,8 @@ console.log(msg);
 ```
 
 <sub>
-  → See [Quickstart](../quickstart/common-recipes) for drop-in examples in
-  Browser Workers.
+  → See [SP8D Quickstart Recipes for Browser
+  Workers](/quickstart/common-recipes) for drop-in examples.
 </sub>
 
 ## Why SP8D?
@@ -62,11 +82,11 @@ SP8D is designed for you.
 
 ## Where to Go Next
 
-- [Quickstart Guide: Install, run and win in 5 minutes](/quickstart/installation)
+- [SP8D Quickstart Guide: Install, run and win in 5 minutes](/quickstart/installation)
 - [Minimal Working Example: Copy, paste, and run instantly](/quickstart/minimal-example)
-- [Core API Reference: Every method, every prop explained](/api-reference/channel-api)
+- [SP8D Channel API Reference: Every method, every prop explained](/api-reference/channel-api)
 - [Concurrency Models: SPSC, MPSC, MPMC at a glance](/principles/concurrency-models)
-- [FAQ & Troubleshooting: “Why isn’t my message arriving?” and more](/guides-and-howtos/faqs#general)
+- [SP8D FAQ & Troubleshooting: “Why isn’t my message arriving?” and more](/guides-and-howtos/faqs#general)
 - [Live Diagnostics & Benchmarking: Benchmark and observe SP8D live in your production environment](/examples/basic-spsc)
 - Real-World Use Cases & Testimonials: SP8D in action (TODO)
 
@@ -88,6 +108,12 @@ graph TD
     Diagnostics -.-> Channel
 ```
 
+<figcaption>
+  SP8D architecture diagram: Producer, Consumer, Channel, Slots
+  (SharedArrayBuffer Atomics), and optional Diagnostics. (Diagram is accessible
+  for screen readers.)
+</figcaption>
+
 > **For live observability, add [`@sp8d/diagnostics`](https://www.npmjs.com/package/@sp8d/diagnostics) to any channel.**
 
 ## Get Involved 👋
@@ -95,3 +121,11 @@ graph TD
 Found a bug? Ideas to expand? Want to sponsor SP8D adoption in your stack?
 Contribute or open issues — all feedback and help welcome.
 Want to see the roadmap? Check our vision.
+
+---
+
+_Last updated: 14 May 2025_
+
+---
+
+**Ready to get started? [Install SP8D now →](/quickstart/installation)**

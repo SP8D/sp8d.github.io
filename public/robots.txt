@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://sp8d.github.io/sitemap.xml
