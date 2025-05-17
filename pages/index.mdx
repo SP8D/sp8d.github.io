@@ -82,38 +82,13 @@ SP8D is designed for you.
 
 ## Where to Go Next
 
-- [SP8D Quickstart Guide: Install, run and win in 5 minutes](/quickstart/installation)
-- [Minimal Working Example: Copy, paste, and run instantly](/quickstart/minimal-example)
-- [SP8D Channel API Reference: Every method, every prop explained](/api-reference/channel-api)
-- [Concurrency Models: SPSC, MPSC, MPMC at a glance](/principles/concurrency-models)
-- [SP8D FAQ & Troubleshooting: “Why isn’t my message arriving?” and more](/guides-and-howtos/faqs#general)
-- [Live Diagnostics & Benchmarking: Benchmark and observe SP8D live in your production environment](/examples/basic-spsc)
-- Real-World Use Cases & Testimonials: SP8D in action (TODO)
-
-## Architecture at a Glance
-
-```mermaid
-%% Diagram: SP8D channel architecture showing Producer, Consumer, Channel, Slots, and optional Diagnostics
-%% Accessible description: Producer sends data to Channel, Channel receives from Producer and passes to Consumer, Channel uses Slots (SharedArrayBuffer Atomics), Diagnostics can observe Channel optionally.
-graph TD
-    Producer(Producer)
-    Consumer(Consumer)
-    Channel(SP8D Channel)
-    Slots(Slots SharedArrayBuffer Atomics)
-    Diagnostics(Diagnostics optional)
-
-    Producer -->|send| Channel
-    Channel -->|recv| Consumer
-    Channel --> Slots
-    Diagnostics -.-> Channel
-```
-
-<sub className="diagram-caption">
-  <strong>Diagram:</strong> SP8D architecture diagram: Producer, Consumer,
-  Channel, Slots (SharedArrayBuffer Atomics), and optional Diagnostics.
-</sub>
-
-> **For live observability, add [`@sp8d/diagnostics`](https://www.npmjs.com/package/@sp8d/diagnostics) to any channel.**
+- [Architecture Overview →](/protocol-internals/architecture-overview#architecture-at-a-glance) Canonical protocol architecture, diagrams, data flow, and robustness.
+- [Quickstart Guide →](/quickstart/installation) Install, run, and win in 5 minutes.
+- [Minimal Example →](/quickstart/minimal-example) Copy, paste, and run instantly.
+- [Channel API Reference →](/api-reference/channel-api) Every method and property explained.
+- [Concurrency Models →](/principles/concurrency-models) SPSC, MPSC, MPMC at a glance.
+- [FAQ & Troubleshooting →](/guides-and-howtos/faqs) Answers to common questions and issues.
+- [Diagnostics & Benchmarking →](/examples/basic-spsc) Benchmark and observe SP8D live in your production environment.
 
 ## Get Involved 👋
 

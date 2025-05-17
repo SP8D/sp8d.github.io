@@ -33,17 +33,17 @@ import { Callout } from "nextra/components";
 ## Diagnostics & Live Monitoring
 
 **Q:** How do I use diagnostics or monitor channel health?  
-**A:** Use `createChannelDiagnostics` for live stats and monitoring. See the API reference for details.
+**A:** See the [Protocol Internals: Architecture Overview](/protocol-internals/architecture-overview#observability--diagnostics) for the canonical explanation of diagnostics, observability, and live monitoring in SP8D. For API usage, see the [Channel API Reference](/api-reference/channel-api).
 
 ## Backpressure & Buffer Full
 
 **Q:** What should I do if the channel is full or backpressured?  
-**A:** Use `sendAsync()` or handle retries. See code examples for patterns.
+**A:** See [Fairness & Backpressure](/principles/fairness-backpressure) for a deep dive, and the [Protocol Internals: Architecture Overview](/protocol-internals/architecture-overview#edge-cases--robustness) for how SP8D handles full/empty buffers and backpressure.
 
 ## Protocol Errors & Debugging
 
 **Q:** What do protocol errors or slot conflicts mean?  
-**A:** They usually indicate concurrency mode mismatch or incorrect usage. Double-check your channel setup.
+**A:** See the [Protocol Internals: Architecture Overview](/protocol-internals/architecture-overview#edge-cases--robustness) for protocol error handling, slot conflicts, and recovery mechanisms.
 
 ## Async Iteration & Patterns
 

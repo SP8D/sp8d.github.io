@@ -240,6 +240,8 @@ for await (const msg of channel) {
 
 ## Advanced: Slot Status Internals
 
+For a comprehensive explanation of protocol architecture, slot state machine, and workflow—including diagrams and edge cases—see the [Architecture Overview →](/protocol-internals/architecture-overview#key-components).
+
 <Callout type="info" title="Deep Dive">
   For dashboards, monitoring, or debugging, access per-slot state directly.
 </Callout>
@@ -312,17 +314,14 @@ See the [Diagnostics Guide →](/guides-and-howtos/faqs) for more.
 
 ---
 
-## Related / Next
+## Where to Go Next
 
-<Callout type="info" title="Next Steps">
-  Explore diagnostics, concurrency patterns, and usage recipes to deepen your
-  understanding and optimize your implementation.
-</Callout>
-
-- [Channel diagnostics & live overlays →](/guides-and-howtos/faqs)
-- [Concurrency patterns and modes →](/principles/concurrency-models)
-- [Common usage recipes →](/quickstart/common-recipes)
-- [File an issue or contribute →](https://github.com/SP8D/sp8d)
+- [Architecture Overview](/protocol-internals/architecture-overview#key-components): Canonical protocol architecture, slot state machine, and workflow.
+- [Concurrency Models](/principles/concurrency-models): SPSC, MPSC, MPMC patterns and best practices.
+- [Common Usage Recipes](/quickstart/common-recipes): Integration patterns and real-world examples.
+- [FAQ & Diagnostics](/guides-and-howtos/faqs): Troubleshooting, diagnostics, and live overlays.
+- [Quickstart Guide](/quickstart/installation): Install and get started fast.
+- [File an issue or contribute](https://github.com/SP8D/sp8d): Open source contributions welcome.
 
 ---
 

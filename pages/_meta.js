@@ -3,6 +3,7 @@ export default {
   introduction: "Introduction",
   quickstart: "Quickstart",
   principles: "Principles",
+  "protocol-internals": "Protocol Internals",
   "api-reference": "API Reference",
   "guides-and-howtos": "Guides and How-Tos",
   examples: "Examples",
