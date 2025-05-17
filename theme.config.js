@@ -3,6 +3,7 @@ export default {
   docsRepositoryBase: "https://github.com/SP8D/sp8d.github.io/blob/master",
   mermaid: true,
   readingTime: true,
+  lastUpdated: true,
   defaultShowCopyCode: true,
   logo: (
     <span aria-label="SP8D Docs Home" title="SP8D Ultra-Low-Latency Web IPC">
@@ -10,7 +11,7 @@ export default {
     </span>
   ),
   footer: false,
-  collapsed: true,
+  collapsed: true, // Primarily for the default sidebar
   search: {
     enabled: true,
     placeholder: "Search documentation…",

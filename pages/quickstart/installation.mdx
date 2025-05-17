@@ -37,6 +37,9 @@ Before installing, ensure your environment meets the following requirements. SP8
 <Callout type="warning" title="Cross-origin Headers">
   In browsers, cross-origin headers may be required for SharedArrayBuffer.
 </Callout>
+
+- [COOP & COEP Headers Explained →](https://docs.google.com/document/d/1zDlfvfTJ_9e8Jdc8ehuV4zMEu9ySMCiTGMS9y0GU92k/edit?tab=t.0)
+
 <Callout type="info" title="Supported Environments">
   Only modern browsers and Node.js 18+ are recommended for SP8D.
 </Callout>
@@ -48,6 +51,10 @@ flowchart LR
     C[Legacy Browser] -.->|Not Supported| SP8D
     D[No SharedArrayBuffer/Atomics] -.->|Not Supported| SP8D
 ```
+
+<sub className="diagram-caption">
+  <strong>Diagram:</strong> Supported and unsupported environments for SP8D.
+</sub>
 
 ---
 
@@ -68,6 +75,11 @@ flowchart TD
     CDN -->|Provides| SP8D
     SP8D --> App
 ```
+
+<sub className="diagram-caption">
+  <strong>Diagram:</strong> SP8D installation and integration flow: NPM for
+  production, CDN for prototyping.
+</sub>
 
 <Callout type="info" title="Integration Flow">
   SP8D installation and integration flow: install via NPM for production, or
@@ -121,10 +133,9 @@ const { createChannel } = require("@sp8d/core");
 
 <Callout type="tip" title="TypeScript Support">
   **SP8D** is written in TypeScript and ships with complete type definitions. No
-  additional type packages are required.
+  additional type packages are required. This ensures seamless integration and
+  type safety in TypeScript projects.
 </Callout>
-
-SP8D is written in TypeScript and ships with complete type definitions. No additional type packages are required. This ensures seamless integration and type safety in TypeScript projects.
 
 For a minimal TypeScript example, see: [Quickstart: Minimal Example →](/quickstart/minimal-example)
 
@@ -172,10 +183,6 @@ If you encounter issues during installation or usage, consider the following.
 - **“Cannot use SharedArrayBuffer”**: Ensure you are in a secure context (https:// with COOP/COEP headers). [See FAQ →](/guides-and-howtos/faqs)
 - **Type errors?** Make sure you are using Node.js 18+ or a supported bundler.
 - **Still stuck?** [Open an issue →](https://github.com/sp8d/sp8d-core/issues)
-
----
-
-_Last updated: 14 May 2025_
 
 ---
 

@@ -29,7 +29,8 @@ Unlock SP8D’s superpowers: copy-paste these patterns to integrate channels acr
 
 ## In a Browser (Main Thread to Worker)
 
-This pattern enables high-performance, zero-copy communication between your main thread and a Web Worker.
+This pattern enables high-performance, zero-copy communication between your main thread and a Web Worker. The main thread creates the channel and buffer, transfers it to the worker,
+and both communicate through the shared channel.
 
 <Callout type="warning" title="Requirements">
   Requires SharedArrayBuffer support in your browser.
@@ -47,10 +48,10 @@ flowchart TD
     Worker -- recv() --> Channel
 ```
 
-<Callout type="info" title="Data Flow">
-  The main thread creates the channel and buffer, transfers it to the worker,
-  and both communicate through the shared channel.
-</Callout>
+<sub className="diagram-caption">
+  <strong>Diagram:</strong> Browser: main thread and worker communicate via a
+  shared SP8D channel.
+</sub>
 
 ```ts copy showLineNumbers filename="main.ts"
 import { createChannel } from "@sp8d/core";
@@ -75,7 +76,8 @@ self.onmessage = (e: MessageEvent<SharedArrayBuffer>) => {
 
 ## Node.js with worker_threads
 
-This recipe shows how to use SP8D for fast, lock-free communication between Node.js worker threads.
+This recipe shows how to use SP8D for fast, lock-free communication between Node.js worker threads. The main thread creates the channel and buffer, passes it to the worker, and
+both communicate through the shared channel.
 
 <Callout type="warning" title="Requirements">
   Requires Node.js 18+ and <code>worker_threads</code>.
@@ -93,10 +95,10 @@ flowchart TD
     Worker -- recv() --> Channel
 ```
 
-<Callout type="info" title="Data Flow">
-  The main thread creates the channel and buffer, passes it to the worker, and
-  both communicate through the shared channel.
-</Callout>
+<sub className="diagram-caption">
+  <strong>Diagram:</strong> Node.js: main thread and worker communicate via a
+  shared SP8D channel.
+</sub>
 
 ```ts copy showLineNumbers filename="main.ts"
 import { createChannel } from "@sp8d/core";
@@ -143,6 +145,11 @@ flowchart TD
     Channel -- recv --> Cn
 ```
 
+<sub className="diagram-caption">
+  <strong>Diagram:</strong> Multiplexing: multiple producers and consumers with
+  a segmented SP8D channel.
+</sub>
+
 <Callout type="info" title="Data Flow">
   Each producer and consumer can operate in its own thread or worker, mapped to
   segments for fair sharing and reduced contention.
@@ -168,11 +175,8 @@ while (true) {
 
 ## Integrating with ML or AI Model Workers
 
-This recipe demonstrates how to use SP8D for efficient, async message passing to and from ML/AI model workers.
-
-<Callout type="info" title="Custom Model Integration">
-  Replace <code>runMyMLModel</code> with your own model inference function.
-</Callout>
+This recipe demonstrates how to use SP8D for efficient, async message passing to and from ML/AI model workers. The main thread sends data to the worker, which processes it (e.g., with an ML
+model) and can optionally send results back.
 
 ```mermaid
 flowchart TD
@@ -186,9 +190,13 @@ flowchart TD
     AIWorker -- (optional: send result) --> Channel
 ```
 
-<Callout type="info" title="Data Flow">
-  The main thread sends data to the worker, which processes it (e.g., with an ML
-  model) and can optionally send results back.
+<sub className="diagram-caption">
+  <strong>Diagram:</strong> AI/ML integration: main thread sends data to a
+  worker for model inference via SP8D channel.
+</sub>
+
+<Callout type="info" title="Custom Model Integration">
+  Replace <code>runMyMLModel</code> with your own model inference function.
 </Callout>
 
 ```ts copy showLineNumbers filename="ai-worker.ts"
@@ -239,11 +247,6 @@ diagnostics.start();
 
 This pattern shows how to handle cases where the buffer is full and the producer must wait or retry.
 
-<Callout type="warning" title="Backpressure Handling">
-  If the buffer is full, the producer must wait, retry, or drop messages as
-  appropriate for your workload.
-</Callout>
-
 ```ts copy showLineNumbers
 // Producer waits if buffer is full
 const payload = createPayload();
@@ -253,9 +256,10 @@ while (!channel.send(payload)) {
 }
 ```
 
----
-
-_Last updated: 14 May 2025_
+<Callout type="warning" title="Backpressure Handling">
+  If the buffer is full, the producer must wait, retry, or drop messages as
+  appropriate for your workload.
+</Callout>
 
 ---
 

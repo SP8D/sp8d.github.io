@@ -20,7 +20,7 @@ canonical: "https://sp8d.github.io/introduction/what-is-sp8d"
 
 import { Callout } from "nextra/components";
 
-SP8D is a high-performance, lock-free protocol for real-time, observable data transfer between concurrent agents in JavaScript and Node.js. It is designed for AI, finance, and multi-agent applications that demand speed, reliability, and transparency.
+**SP8D** is a high-performance, lock-free protocol for real-time, observable data transfer between concurrent agents in JavaScript and Node.js. It is designed for AI, finance, and multi-agent applications that demand speed, reliability, and transparency.
 
 # What is SP8D? Lock-Free Real-Time Messaging for JavaScript & Node.js
 
@@ -112,9 +112,9 @@ graph TD
     Diagnostics -.-> Channel
 ```
 
-<sub>
-  SP8D enables multiple producers and consumers to communicate through a
-  lock-free, observable channel with live diagnostics.
+<sub className="diagram-caption">
+  <strong>Diagram:</strong> SP8D enables multiple producers and consumers to
+  communicate through a lock-free, observable channel with live diagnostics.
 </sub>
 
 ---
@@ -161,9 +161,9 @@ sequenceDiagram
     Channel->>Diagnostics: emit(event)
 ```
 
-<sub>
-  SP8D channels enable real-time, observable data flow between producers and
-  consumers.
+<sub className="diagram-caption">
+  <strong>Diagram:</strong> SP8D channels enable real-time, observable data flow
+  between producers and consumers.
 </sub>
 
 ---
@@ -182,15 +182,11 @@ sequenceDiagram
   </ul>
 </Callout>
 
-- Lock-free, wait-free slot arbitration (no bottlenecks)
-- Fast, safe, observable reclamation (never stuck)
-- Segment sharding for scalable concurrency
-- Fine-grained error, state, and performance tracking (**radical observability**)
+- **Wait-free slot arbitration** for zero-contention access (no bottlenecks).
+- **Efficient and safe message reclamation** ensuring no data is ever stuck or lost.
+- Segment sharding for scalable concurrency.
+- **Radical observability** through fine-grained, real-time tracking of errors, state, and performance.
 - Max compatibility: Browser (WebWorker), Node.js (worker_threads), WASM
-
----
-
-_Last updated: 14 May 2025_
 
 ---
 

@@ -1,1 +1,16 @@
 /* You can add global styles for your docs here, or leave this file empty. */
+
+.diagram-caption {
+  display: block;
+  text-align: center;
+  margin-top: 0.5em;
+  color: var(--caption-color, #666);
+  font-size: 0.97em;
+}
+
+/* Always underline links inside callouts */
+.nextra-callout a,
+.nextra-callout :where(a) {
+  text-decoration: underline !important;
+  text-underline-offset: 2px;
+}

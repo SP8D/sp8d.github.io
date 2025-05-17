@@ -22,7 +22,7 @@ canonical: "https://sp8d.github.io/"
 
 import { Callout } from "nextra/components";
 
-SP8D is the leading open-source solution for ultra-low-latency, lock-free, real-time messaging and cross-thread communication in JavaScript and Node.js. Built for demanding AI, finance, and multi-agent applications, SP8D delivers blazing-fast, observable, and reliable data transfer for modern web and server environments.
+**SP8D** is the leading open-source solution for ultra-low-latency, lock-free, real-time messaging and cross-thread communication in JavaScript and Node.js. Built for demanding AI, finance, and multi-agent applications, SP8D delivers blazing-fast, observable, and reliable data transfer for modern web and server environments.
 
 # SP8D: Ultra-Low-Latency Lock-Free Channels for JavaScript & Node.js
 
@@ -40,7 +40,7 @@ SP8D is the leading open-source solution for ultra-low-latency, lock-free, real-
 
 SP8D is a breakthrough communication core for demanding front-end and AI workloads:
 
-- **Blazing-fast, lock-free, slot-based communication** via SharedArrayBuffer and atomics
+- **Blazing-fast, lock-free, slot-based communication** via [SharedArrayBuffer](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/SharedArrayBuffer) and [atomics](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Atomics)
 - **Truly bounded and backpressure-driven**, with guaranteed “never drop, never leak, never stall”
 - **Battle-tested for real-time trading, ML agents, and browser-native concurrency**
 - **Radically observable**: live diagnostics, transparency, and no more guessing why your system slowed down
@@ -108,11 +108,10 @@ graph TD
     Diagnostics -.-> Channel
 ```
 
-<figcaption>
-  SP8D architecture diagram: Producer, Consumer, Channel, Slots
-  (SharedArrayBuffer Atomics), and optional Diagnostics. (Diagram is accessible
-  for screen readers.)
-</figcaption>
+<sub className="diagram-caption">
+  <strong>Diagram:</strong> SP8D architecture diagram: Producer, Consumer,
+  Channel, Slots (SharedArrayBuffer Atomics), and optional Diagnostics.
+</sub>
 
 > **For live observability, add [`@sp8d/diagnostics`](https://www.npmjs.com/package/@sp8d/diagnostics) to any channel.**
 
@@ -121,10 +120,6 @@ graph TD
 Found a bug? Ideas to expand? Want to sponsor SP8D adoption in your stack?
 Contribute or open issues — all feedback and help welcome.
 Want to see the roadmap? Check our vision.
-
----
-
-_Last updated: 14 May 2025_
 
 ---
 

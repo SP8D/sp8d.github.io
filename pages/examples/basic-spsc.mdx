@@ -47,10 +47,10 @@ flowchart LR
   Channel -- recv() --> Consumer[Consumer]
 ```
 
-<sub>
-  <strong>Producer</strong> uses <code>send()</code> to move data to the
-  channel. <strong>Consumer</strong> uses <code>recv()</code> to receive it.
-  This direct handoff is what enables SPSC's ultra-low latency and simplicity.
+<sub className="diagram-caption">
+  <strong>Diagram:</strong> Producer uses <code>send()</code> to move data to
+  the channel. Consumer uses <code>recv()</code> to receive it. This direct
+  handoff is what enables SPSC's ultra-low latency and simplicity.
 </sub>
 
 ```ts copy showLineNumbers
@@ -172,10 +172,6 @@ Received: Uint8Array([7, 70])
 
 - [Common usage recipes →](/quickstart/common-recipes)
 - [File an issue or contribute →](https://github.com/SP8D/sp8d)
-
----
-
-_Last updated: 14 May 2025_
 
 ---
 

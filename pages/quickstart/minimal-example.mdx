@@ -48,7 +48,7 @@ console.log("Received:", received); // Uint8Array([42, 17, 8])
 ```
 
 <Callout type="tip" title="JavaScript Users">
-  If you prefer plain JavaScript, you can use the same code without type
+  If you prefer <b>plain JavaScript</b>, you can use the same code without type
   annotations.
 </Callout>
 
@@ -103,11 +103,10 @@ graph TD
     Worker -- recv() --> Channel
 ```
 
-<Callout type="info" title="Data Flow">
-  Data flow in the browser minimal example: the main thread creates the channel
-  and buffer, transfers it to the worker, and both communicate through the
-  shared channel.
-</Callout>
+<sub className="diagram-caption">
+  <strong>Diagram:</strong> Minimal browser/worker data flow: main thread and
+  worker communicate via a shared SP8D channel.
+</sub>
 
 ---
 
@@ -150,10 +149,6 @@ graph TD
 - [Core API Reference →](/api-reference/channel-api)
 - [FAQ →](/guides-and-howtos/faqs)
 - [Open an Issue →](https://github.com/SP8D/sp8d/issues)
-
----
-
-_Last updated: 14 May 2025_
 
 ---
 
