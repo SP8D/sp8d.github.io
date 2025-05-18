@@ -54,6 +54,12 @@ SP8D supports all major cross-thread concurrency patterns out of the box, so you
   one-to-one data flows where throughput and minimal contention are critical.
 </Callout>
 
+<Callout type="tip" title="Fairness & Backpressure">
+  For best practices on handling buffer full, fairness, and lossless delivery in
+  SPSC, see{" "}
+  <a href="/principles/fairness-backpressure">Fairness & Backpressure</a>.
+</Callout>
+
 ```mermaid
 flowchart TD
     Producer[Producer]
@@ -96,6 +102,11 @@ const { channel } = createChannel({ mode: "SPSC" });
 <Callout type="info" title="Model Overview">
   MPSC lets you aggregate work from many sources into a single target—perfect
   for logging, worker pools, or parallel data collection.
+</Callout>
+
+<Callout type="tip" title="Fairness & Backpressure">
+  Learn how SP8D prevents starvation and ensures fair access in MPSC:{" "}
+  <a href="/principles/fairness-backpressure">Fairness & Backpressure</a>.
 </Callout>
 
 ```mermaid
@@ -143,6 +154,13 @@ const { channel } = createChannel({ mode: "MPSC", segments: 2 });
   MPMC is the most flexible model, supporting many producers and many
   consumers—ideal for load-balancing, multi-agent systems, or simulations at
   scale.
+</Callout>
+
+<Callout type="tip" title="Fairness & Backpressure">
+  High-contention MPMC setups require careful fairness and backpressure
+  handling. See{" "}
+  <a href="/principles/fairness-backpressure">Fairness & Backpressure</a> for
+  advanced scenarios and mitigation strategies.
 </Callout>
 
 ```mermaid
@@ -196,6 +214,8 @@ const { channel } = createChannel({ mode: "MPMC", segments: 4 });
 
 <Callout type="info" title="Choosing the Right Model">
   Unsure which model to use? Match your use case to the recommended model below.
+  For advanced tuning, fairness, and troubleshooting, see{" "}
+  <a href="/principles/fairness-backpressure">Fairness & Backpressure</a>.
 </Callout>
 
 | Your Need:                     | Recommended Model |
@@ -208,9 +228,7 @@ const { channel } = createChannel({ mode: "MPMC", segments: 4 });
 
 _Segmentation reduces contention and enables scaling—set `segments > 1` for multiple producers or consumers. Map each `producerId` or `consumerId` to a segment to further reduce slot collisions._
 
-[See segmentation deep-dive →](/guides-and-howtos/faqs)
-
-> **Looking for protocol internals or slot state machine details?** See [Slot State Machine →](/guides-and-howtos/faqs)
+> **Looking for protocol internals or slot state machine details?** See [Slot State Machine →](/protocol-internals/slot-state-machine)
 
 ## Code Patterns in Practice
 
@@ -224,4 +242,10 @@ _Choose the right model for your architecture:_
 
 ---
 
-**Next: [See SP8D Channel API Reference →](/api-reference/channel-api)**
+## Where to Go Next
+
+- [Common Recipes](/quickstart/common-recipes)
+- [Channel API Reference](/api-reference/channel-api)
+- [Protocol Architecture Overview](/protocol-internals/architecture-overview)
+- [Fairness & Backpressure](/principles/fairness-backpressure)
+- [FAQ & Troubleshooting](/guides-and-howtos/faqs)

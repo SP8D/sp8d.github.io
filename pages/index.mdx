@@ -40,7 +40,7 @@ import { Callout } from "nextra/components";
 
 SP8D is a breakthrough communication core for demanding front-end and AI workloads:
 
-- **Blazing-fast, lock-free, slot-based communication** via [SharedArrayBuffer](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/SharedArrayBuffer) and [atomics](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Atomics)
+- **Blazing-fast, lock-free, slot-based communication** via [SharedArrayBuffer](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/SharedArrayBuffer) and [Atomics](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Atomics)
 - **Truly bounded and backpressure-driven**, with guaranteed “never drop, never leak, never stall”
 - **Battle-tested for real-time trading, ML agents, and browser-native concurrency**
 - **Radically observable**: live diagnostics, transparency, and no more guessing why your system slowed down
@@ -82,12 +82,12 @@ SP8D is designed for you.
 
 ## Where to Go Next
 
-- [Architecture Overview →](/protocol-internals/architecture-overview#architecture-at-a-glance) Canonical protocol architecture, diagrams, data flow, and robustness.
-- [Quickstart Guide →](/quickstart/installation) Install, run, and win in 5 minutes.
-- [Minimal Example →](/quickstart/minimal-example) Copy, paste, and run instantly.
-- [Channel API Reference →](/api-reference/channel-api) Every method and property explained.
-- [Concurrency Models →](/principles/concurrency-models) SPSC, MPSC, MPMC at a glance.
-- [FAQ & Troubleshooting →](/guides-and-howtos/faqs) Answers to common questions and issues.
+- [Minimal Example](/quickstart/minimal-example)
+- [Common Recipes](/quickstart/common-recipes)
+- [Channel API Reference](/api-reference/channel-api)
+- [Protocol Architecture Overview](/protocol-internals/architecture-overview)
+- [Fairness & Backpressure](/principles/fairness-backpressure)
+- [FAQ & Troubleshooting](/guides-and-howtos/faqs)
 - [Diagnostics & Benchmarking →](/examples/basic-spsc) Benchmark and observe SP8D live in your production environment.
 
 ## Get Involved 👋
@@ -95,7 +95,3 @@ SP8D is designed for you.
 Found a bug? Ideas to expand? Want to sponsor SP8D adoption in your stack?
 Contribute or open issues — all feedback and help welcome.
 Want to see the roadmap? Check our vision.
-
----
-
-**Ready to get started? [Install SP8D now →](/quickstart/installation)**

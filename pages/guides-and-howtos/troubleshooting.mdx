@@ -1,8 +1,66 @@
 ---
-title: "SP8D Troubleshooting (Placeholder)"
-description: "Placeholder for Troubleshooting documentation."
+title: "SP8D Troubleshooting Guide: Buffer Full, Starvation, Diagnostics"
+description: "In-depth troubleshooting for SP8D: persistent buffer full, starvation, unfair access, and advanced diagnostics. Step-by-step solutions for JavaScript & Node.js."
+keywords:
+  [
+    "SP8D troubleshooting",
+    "buffer full",
+    "starvation",
+    "diagnostics",
+    "fairness",
+    "JavaScript",
+    "Node.js",
+    "concurrency",
+    "high-performance messaging",
+  ]
+canonical: "https://sp8d.github.io/guides-and-howtos/troubleshooting"
 ---
 
-# Troubleshooting (Placeholder)
+import { Callout } from "nextra/components";
 
-Content coming soon.
+# SP8D Troubleshooting Guide
+
+<Callout type="info" title="How to Use This Guide">
+  This guide covers persistent buffer full, starvation, unfair access, and
+  advanced diagnostics for SP8D channels. Use the scenarios below to quickly
+  diagnose and resolve common issues.
+</Callout>
+
+---
+
+## Troubleshooting Scenarios
+
+### Persistent Buffer Full
+
+- Check if your consumer is too slow or your buffer is too small.
+- Use diagnostics to identify bottlenecks.
+- Try increasing buffer size or optimizing consumer logic.
+
+### Starvation or Unfair Access
+
+- Use diagnostics to check for agents that are not making progress.
+- Review your concurrency pattern—consider switching to SPSC or MPSC if possible.
+- Tune buffer size and retry logic.
+
+---
+
+## Advanced Diagnostics & Mythbusting
+
+- _Myth:_ “Backpressure means data loss.”  
+  _Fact:_ SP8D never drops data silently; you always get a signal and can handle it.
+- _Myth:_ “Fairness is automatic in all lock-free systems.”  
+  _Fact:_ Only protocols with explicit fairness mechanisms (like SP8D’s slot state machine) can guarantee it.
+- _Myth:_ “Backpressure only happens in slow systems.”  
+  _Fact:_ Backpressure can occur even in high-performance systems during bursts or imbalanced workloads.
+- _Myth:_ “Diagnostics are only for debugging.”  
+  _Fact:_ Diagnostics are essential for proactive monitoring and tuning in production.
+
+---
+
+## Where to Go Next
+
+- [Common Recipes](/quickstart/common-recipes)
+- [Channel API Reference](/api-reference/channel-api)
+- [Protocol Architecture Overview](/protocol-internals/architecture-overview)
+- [Fairness & Backpressure](/principles/fairness-backpressure)
+- [FAQ & Troubleshooting](/guides-and-howtos/faqs)
