@@ -4,6 +4,7 @@ import examples_meta from "../../../pages/examples/_meta.js";
 import guides_and_howtos_meta from "../../../pages/guides-and-howtos/_meta.js";
 import introduction_meta from "../../../pages/introduction/_meta.js";
 import principles_meta from "../../../pages/principles/_meta.js";
+import protocol_internals_meta from "../../../pages/protocol-internals/_meta.js";
 import quickstart_meta from "../../../pages/quickstart/_meta.js";
 export const pageMap = [{
   data: meta
@@ -36,6 +37,13 @@ export const pageMap = [{
       "keywords": ["SP8D example", "SPSC", "single-producer single-consumer", "lock-free queue", "JavaScript", "Node.js", "concurrency", "high-performance messaging", "parallel programming"],
       "canonical": "https://sp8d.github.io/examples/basic-spsc"
     }
+  }, {
+    name: "scalable-mpmc",
+    route: "/examples/scalable-mpmc",
+    frontMatter: {
+      "title": "SP8D Example: Scalable MPMC (Placeholder)",
+      "description": "Placeholder for Scalable MPMC example documentation."
+    }
   }]
 }, {
   name: "guides-and-howtos",
@@ -50,6 +58,15 @@ export const pageMap = [{
       "description": "Frequently asked questions about SP8D: browser support, diagnostics, backpressure, async iteration, and troubleshooting for high-performance JavaScript and Node.js messaging.",
       "keywords": ["SP8D FAQ", "troubleshooting", "browser support", "diagnostics", "backpressure", "async iteration", "concurrency", "JavaScript", "Node.js", "high-performance messaging"],
       "canonical": "https://sp8d.github.io/guides-and-howtos/faqs"
+    }
+  }, {
+    name: "troubleshooting",
+    route: "/guides-and-howtos/troubleshooting",
+    frontMatter: {
+      "title": "SP8D Troubleshooting Guide: Buffer Full, Starvation, Diagnostics",
+      "description": "In-depth troubleshooting for SP8D: persistent buffer full, starvation, unfair access, and advanced diagnostics. Step-by-step solutions for JavaScript & Node.js.",
+      "keywords": ["SP8D troubleshooting", "buffer full", "starvation", "diagnostics", "fairness", "JavaScript", "Node.js", "concurrency", "high-performance messaging"],
+      "canonical": "https://sp8d.github.io/guides-and-howtos/troubleshooting"
     }
   }]
 }, {
@@ -89,6 +106,44 @@ export const pageMap = [{
       "description": "Master SP8D concurrency models—SPSC, MPSC, and MPMC—for high-performance, lock-free communication in JavaScript and Node.js. Compare patterns, use cases, and implementation tips to optimize your multi-threaded apps.",
       "keywords": ["SP8D concurrency", "SPSC", "MPSC", "MPMC", "concurrency models", "lock-free", "multi-threading", "JavaScript", "Node.js", "high-performance messaging", "parallel programming"],
       "canonical": "https://sp8d.github.io/principles/concurrency-models"
+    }
+  }, {
+    name: "fairness-backpressure",
+    route: "/principles/fairness-backpressure",
+    frontMatter: {
+      "title": "SP8D Principles: Fairness & Backpressure",
+      "description": "Understand fairness and backpressure in SP8D: how the protocol ensures robust, lock-free messaging, prevents starvation, and handles full/empty buffers. Best practices, diagrams, and troubleshooting for JavaScript & Node.js.",
+      "keywords": ["SP8D fairness", "backpressure", "lock-free messaging", "starvation prevention", "buffer full", "JavaScript", "Node.js", "concurrency", "high-performance messaging"],
+      "canonical": "https://sp8d.github.io/principles/fairness-backpressure"
+    }
+  }]
+}, {
+  name: "protocol-internals",
+  route: "/protocol-internals",
+  children: [{
+    data: protocol_internals_meta
+  }, {
+    name: "architecture-overview",
+    route: "/protocol-internals/architecture-overview",
+    frontMatter: {
+      "title": "SP8D Protocol Internals: Architecture Overview",
+      "description": "A high-level, visual, and practical overview of the SP8D protocol architecture, data flow, and slot state machine for implementers and advanced users.",
+      "keywords": ["SP8D architecture", "protocol internals", "lock-free messaging", "slot state machine", "diagnostics", "JavaScript", "Node.js", "high-performance messaging"],
+      "canonical": "https://sp8d.github.io/protocol-internals/architecture-overview"
+    }
+  }, {
+    name: "gen-cycle-byte",
+    route: "/protocol-internals/gen-cycle-byte",
+    frontMatter: {
+      "title": "SP8D Protocol Internals: Gen-Cycle Byte (Placeholder)",
+      "description": "Placeholder for Gen-Cycle Byte documentation."
+    }
+  }, {
+    name: "slot-state-machine",
+    route: "/protocol-internals/slot-state-machine",
+    frontMatter: {
+      "title": "SP8D Protocol Internals: Slot State Machine (Placeholder)",
+      "description": "Placeholder for Slot State Machine documentation."
     }
   }]
 }, {
