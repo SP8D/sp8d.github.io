@@ -26,6 +26,16 @@
     <priority>0.8</priority>
   </url>
   <url>
+    <loc>https://sp8d.github.io/examples/basic-spsc</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://sp8d.github.io/examples/scalable-mpmc</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
     <loc>https://sp8d.github.io/principles/concurrency-models</loc>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
@@ -33,15 +43,20 @@
   <url>
     <loc>https://sp8d.github.io/principles/fairness-backpressure</loc>
     <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://sp8d.github.io/protocol-internals/architecture-overview</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://sp8d.github.io/protocol-internals/slot-state-machine</loc>
+    <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://sp8d.github.io/examples/basic-spsc</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://sp8d.github.io/examples/scalable-mpmc</loc>
+    <loc>https://sp8d.github.io/protocol-internals/gen-cycle-byte</loc>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
@@ -58,21 +73,6 @@
   <url>
     <loc>https://sp8d.github.io/guides-and-howtos/troubleshooting</loc>
     <changefreq>monthly</changefreq>
-    <priority>0.5</priority>
-  </url>
-  <url>
-    <loc>https://sp8d.github.io/protocol-internals/architecture-overview</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://sp8d.github.io/protocol-internals/slot-state-machine</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.5</priority>
-  </url>
-  <url>
-    <loc>https://sp8d.github.io/protocol-internals/gen-cycle-byte</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.5</priority>
+    <priority>0.7</priority>
   </url>
 </urlset>

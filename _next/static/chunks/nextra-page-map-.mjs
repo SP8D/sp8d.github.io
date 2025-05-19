@@ -142,8 +142,8 @@ export const pageMap = [{
     name: "slot-state-machine",
     route: "/protocol-internals/slot-state-machine",
     frontMatter: {
-      "title": "SP8D Protocol Internals: Slot State Machine (Placeholder)",
-      "description": "Placeholder for Slot State Machine documentation."
+      "title": "SP8D Protocol Internals: Slot State Machine",
+      "description": "Deep dive into the SP8D slot state machine: lifecycle, transitions, fairness, and recovery. Visual diagrams and best practices for implementers and advanced users."
     }
   }]
 }, {
