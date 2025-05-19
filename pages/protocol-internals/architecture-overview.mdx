@@ -21,11 +21,7 @@ SP8D’s protocol internals are the foundation for its lock-free, ultra-low-late
 
 # SP8D Protocol Internals: Architecture Overview
 
-<Callout type="success" title="Why SP8D?">
-  SP8D delivers lock-free, ultra-low-latency, and observable messaging for
-  demanding AI, finance, and multi-agent applications—outperforming legacy
-  approaches like postMessage.
-</Callout>
+> SP8D delivers lock-free, ultra-low-latency, and observable messaging for demanding AI, finance, and multi-agent applications—outperforming legacy approaches like postMessage.
 
 <Callout type="info" title="Who is this for?">
   This page is for advanced users, implementers, and contributors who want to
@@ -51,8 +47,8 @@ SP8D’s protocol internals are the foundation for its lock-free, ultra-low-late
 ## Architecture at a Glance
 
 <Callout type="info" title="Real-World Use Case">
-  <strong>AI Copilots:</strong> SP8D powers real-time, multi-agent communication
-  in browser-based AI copilots, ensuring fairness and traceability under load.
+  SP8D powers real-time, multi-agent communication in browser-based AI copilots,
+  ensuring fairness and traceability under load.
 </Callout>
 
 ```mermaid
@@ -150,27 +146,9 @@ sequenceDiagram
 
 ---
 
-## Slot State Machine (Preview)
+## Slot State Machine
 
-**Slot lifecycle at a glance:**
-
-Each slot in the buffer has a lifecycle—think of it like a rotating sushi bar, where each plate (slot) is claimed, filled, picked up, and returned for reuse.
-
-```mermaid
-stateDiagram-v2
-    [*] --> Empty
-    Empty --> Claimed: Producer claims
-    Claimed --> Written: Producer writes data
-    Written --> Read: Consumer reads
-    Read --> Reclaimed: Consumer marks reclaimed
-    Reclaimed --> Empty: Slot is available again
-```
-
-<sub class="diagram-caption">
-  **Diagram:** Slot state transitions in SP8D. See [Slot State
-  Machine](/protocol-internals/slot-state-machine) for full details, or [try the
-  live test harness](https://harness.sp8d.com).
-</sub>
+For a complete deep dive into slot lifecycle, state transitions, atomic operations, and recovery—including advanced scenarios and best practices—see the [Slot State Machine](/protocol-internals/slot-state-machine) documentation.
 
 ---
 
@@ -179,8 +157,8 @@ stateDiagram-v2
 **Monitor, debug, and optimize in real time:**
 
 <Callout type="info" title="Real-World Use Case">
-  <strong>Finance:</strong> SP8D’s diagnostics enable live monitoring and
-  recovery in high-frequency trading and regulated environments.
+  SP8D’s diagnostics enable live monitoring and recovery in high-frequency
+  trading and regulated environments.
 </Callout>
 
 SP8D is designed for radical observability. The diagnostics module can be attached to any channel to monitor:
@@ -221,10 +199,7 @@ diagnostics.start();
 
 </details>
 
-<Callout type="tip" title="How to enable diagnostics">
-  Use `createChannelDiagnostics(channel, intervalMs)` to monitor any channel in
-  real time.
-</Callout>
+> Use `createChannelDiagnostics(channel, intervalMs)` to monitor any channel in real time.
 
 ---
 
@@ -233,16 +208,16 @@ diagnostics.start();
 **SP8D is designed for real-world reliability:**
 
 - **Stuck slots:** Automatic sweeper and diagnostics detect and recover.
-  _How to detect:_ Diagnostics show non-zero `used` with no throughput.
-  _How to recover:_ Sweeper reclaims stuck slots; manual intervention rarely
-  needed.
+  - _How to detect:_ Diagnostics show non-zero `used` with no throughput.
+  - _How to recover:_ Sweeper reclaims stuck slots; manual intervention rarely
+    needed.
 - **Reclaim races:** Protocol ensures only one consumer can reclaim a slot.
-  _How to detect:_ Diagnostics may show `conflicts`.
-  _How to recover:_ Protocol prevents double-reclaim; review consumer logic
-  if persistent.
+  - _How to detect:_ Diagnostics may show `conflicts`.
+  - _How to recover:_ Protocol prevents double-reclaim; review consumer logic
+    if persistent.
 - **Full/empty buffer:** Backpressure and fairness mechanisms prevent starvation.
-  _How to detect:_ Diagnostics show high `used` or `consumerLag`.
-  _How to recover:_ Tune buffer size or consumer speed; see [Fairness & Backpressure](/principles/fairness-backpressure).
+  - _How to detect:_ Diagnostics show high `used` or `consumerLag`.
+  - _How to recover:_ Tune buffer size or consumer speed; see [Fairness & Backpressure](/principles/fairness-backpressure).
 
 For implementation details, see `sp8d-core.ts` and `sp8d-diagnostics.ts`.
 

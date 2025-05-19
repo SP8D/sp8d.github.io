@@ -27,7 +27,7 @@ Access the comprehensive SP8D Channel API reference for JavaScript and Node.js. 
 
 ## Channel Creation
 
-<Callout type="note" title="Quick intro">
+<Callout type="info" title="Quick intro">
   Create a channel for real-time, lock-free messaging. Use{" "}
   <code>createChannel</code> for new channels, <code>attachChannel</code> to
   connect in another thread.
@@ -45,7 +45,7 @@ Creates a new SP8D channel, returning both the API object and the underlying `Sh
 - `segments` _(number)_ — Segments for increased scale. Default: `1`.
 - `sweepTimeoutMs` _(number)_ — Slot reclaim timeout (ms). Default: `50`.
 
-```ts copy
+```ts copy showLineNumbers
 const { channel, buffer } = createChannel({
   slots: 16,
   slotSize: 64,
@@ -74,7 +74,7 @@ const channel = attachChannel(buffer);
 
 ### Send Data
 
-<Callout type="tip" title="Best Practice">
+<Callout type="info" title="Best Practice">
   Use <code>trySend</code> in high-frequency or non-critical paths to avoid
   exceptions. Use <code>send</code> when you must guarantee delivery or want to
   catch errors.
@@ -100,7 +100,7 @@ await channel.sendAsync(msg, myProducerId, { timeoutMs: 1000 });
 
 ### Receive Data
 
-<Callout type="tip" title="Polling vs. Async">
+<Callout type="info" title="Polling vs. Async">
   Use <code>recvAsync</code> for event-driven flows, and <code>tryRecv</code>{" "}
   for polling or non-blocking loops.
 </Callout>
@@ -152,7 +152,7 @@ Receive a JSON-serialized object. Returns `null` if empty or parse fails.
 
 ### Channel State
 
-<Callout type="tip" title="Status Checks">
+<Callout type="info" title="Status Checks">
   Use <code>full()</code> and <code>empty()</code> to check channel status
   before sending or receiving in tight loops.
 </Callout>
@@ -198,15 +198,11 @@ channel.reset();
 
 ### Diagnostics & Introspection
 
-<Callout type="tip" title="Best Practice">
-  Use <code>stats()</code> and <code>info()</code> for live monitoring and
-  debugging. Use <code>validate()</code> in tests to catch protocol errors
-  early.
-</Callout>
-
 <Callout type="info" title="Advanced: Async Iteration">
   The channel can be used as an async iterator for idiomatic, event-driven
-  message consumption.
+  message consumption. Use <code>stats()</code> and <code>info()</code> for live
+  monitoring and debugging. Use <code>validate()</code> in tests to catch
+  protocol errors early.
 </Callout>
 
 #### `stats(): ChannelStats`
@@ -240,22 +236,13 @@ for await (const msg of channel) {
 
 ## Advanced: Slot Status Internals
 
-For a comprehensive explanation of protocol architecture, slot state machine, and workflow—including diagrams and edge cases—see the [Architecture Overview →](/protocol-internals/architecture-overview#key-components).
-
-<Callout type="info" title="Deep Dive">
-  For dashboards, monitoring, or debugging, access per-slot state directly.
-</Callout>
-
-- `slotStatus` (readonly Uint8Array[]) — current state for all slots
-- `slotClaimTimestamp` (readonly Uint32Array[]) — last claimed timestamp per slot
-
-[How to use for live dashboards →](https://harness.sp8d.com/)
+> For a complete explanation of slot state machine internals—including slot lifecycle, state transitions, atomic operations, and recovery—see the [Slot State Machine](/protocol-internals/slot-state-machine#quick-reference-slot-states--transitions) documentation.
 
 ---
 
 ## Diagnostics & Observability
 
-<Callout type="tip" title="Best Practice">
+<Callout type="info" title="Best Practice">
   Use diagnostics in development and staging to catch protocol issues early.
   Avoid running diagnostics in hot production loops unless you need live
   monitoring.
@@ -299,7 +286,7 @@ See the [Diagnostics Guide →](/protocol-internals/architecture-overview#observ
 
 ## Performance & Concurrency Tips
 
-<Callout type="tip" title="Performance Checklist">
+<Callout type="info" title="Performance Checklist">
   For maximum throughput, tune <code>slots</code> and <code>slotSize</code> to
   match your message rate and payload size. Use the minimal number of segments
   needed for your concurrency model.

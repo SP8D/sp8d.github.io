@@ -24,12 +24,7 @@ This page demonstrates a step-by-step SP8D SPSC (Single-Producer, Single-Consume
 
 The classic “lock-free queue” pattern—one producer, one consumer, highest throughput, zero overhead. SPSC is the fastest possible channel mode: no locks, no contention, and cache-friendly.
 
-<Callout type="tip" title="Why SPSC?">
-  **SPSC (Single-Producer, Single-Consumer)** channels are the gold standard for
-  ultra-low-latency, lock-free communication between exactly two threads or
-  tasks. Use this pattern when you need maximum throughput and absolute
-  ordering, with zero contention or ambiguity.
-</Callout>
+> **SPSC (Single-Producer, Single-Consumer)** channels are the gold standard for ultra-low-latency, lock-free communication between exactly two threads or tasks. Use this pattern when you need maximum throughput and absolute ordering, with zero contention or ambiguity.
 
 ---
 
@@ -53,7 +48,7 @@ flowchart LR
   handoff is what enables SPSC's ultra-low latency and simplicity.
 </sub>
 
-```ts copy showLineNumbers
+```ts copy showLineNumbers filename="minimal-spsc.ts"
 import { createChannel } from "@sp8d/core";
 
 // Create an SPSC channel with 4 slots, each slot holding up to 16 bytes.
@@ -86,7 +81,7 @@ while ((received = channel.recv()) !== null) {
 For real-world, non-blocking usage, use <code>sendAsync()</code> and the async
 iterator as shown below.
 
-```ts copy
+```ts copy filename="async-spsc.ts"
 // Producer (async)
 for (let i = 0; i < 8; ++i) {
   await channel.sendAsync(new Uint8Array([i, i * 10]));
@@ -107,11 +102,7 @@ for await (const received of channel) {
 - **Consumer:** Calls <code>recv()</code> repeatedly—gets every value, in order, with no races or drops.
 - **SPSC Mode Guarantee:** Guarantees simple “ping-pong” correctness: no overwrites, slot loss, or ambiguity.
 
-<Callout type="tip" title="Backpressure Handling">
-  Backpressure is critical for lossless, high-throughput systems. Notice the
-  producer waits (<code>while (!send)</code>) if the ring is full. This ensures
-  you never lose data—even under burst conditions.
-</Callout>
+> **Backpressure is critical** for lossless, high-throughput systems. Notice the producer waits (<code>while (!send)</code>) if the ring is full. This ensures you never lose data—even under burst conditions.
 
 <Callout type="info" title="What Should I See?">
   The output below shows the expected send/receive order for this example. If
@@ -162,11 +153,11 @@ Received: Uint8Array([7, 70])
   </ul>
 </Callout>
 
-<Callout type="tip" title="Performance Note">
-  SPSC is the fastest mode, but only if you stick to the
-  single-producer/single-consumer contract. If you break this contract, you may
-  see data loss or protocol errors—use MPSC/MPMC for more complex patterns.
-</Callout>
+> **SPSC is the fastest mode**, but only if you stick to the single-producer/single-consumer contract. If you break this contract, you may see data loss or protocol errors—use MPSC/MPMC for more complex patterns.
+
+## How does this work under the hood?
+
+For a complete explanation of the slot state machine—including slot lifecycle, state transitions, atomic operations, and recovery—see the [Slot State Machine](/protocol-internals/slot-state-machine) documentation.
 
 ## Where to Go Next
 

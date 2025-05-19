@@ -17,13 +17,34 @@ canonical: "https://sp8d.github.io/quickstart/common-recipes"
 
 import { Callout } from "nextra/components";
 
-# Quickstart: Common Recipes
-
-Unlock SP8D’s power with common integration patterns and recipes for JavaScript and Node.js. Learn browser, Node.js, and AI/ML workflows with code samples and diagrams for high-performance messaging.
+SP8D’s common recipes are your practical, copy-paste guide to integrating high-performance channels into real-world JavaScript and Node.js apps. This page provides actionable patterns for browser, Node.js, and AI/ML workflows, with diagrams and troubleshooting tips to help you build robust, scalable systems fast.
 
 # SP8D Recipes: Integration Patterns for JavaScript & Node.js
 
-Unlock SP8D’s superpowers: copy-paste these patterns to integrate channels across workers, threads, AI loops, and dashboards. Each recipe below is ready to use and includes a visual or explanation to help you understand the data flow and integration points.
+> **Unlock SP8D’s superpowers**: copy-paste these patterns to integrate channels across workers, threads, AI loops, and dashboards. Each recipe below is ready to use and includes a visual or explanation to help you understand the data flow and integration points.
+
+---
+
+## Pattern Selection Guide
+
+| Use Case                           | Pattern   | When to Use                          | Recipe Link                                                            |
+| ---------------------------------- | --------- | ------------------------------------ | ---------------------------------------------------------------------- |
+| Main thread ↔ Web Worker (browser) | SPSC/SPSC | One producer, one consumer, browser  | [Browser Recipe](#in-a-browser-main-thread-to-worker)                  |
+| Main thread ↔ Worker (Node.js)     | SPSC/SPSC | One producer, one consumer, Node.js  | [Node.js Recipe](#nodejs-with-worker_threads)                          |
+| Multiple producers/consumers       | MPSC/MPMC | Scale out, reduce contention         | [Multiplexing](#multiplexing-multiple-producers-one-or-many-consumers) |
+| AI/ML model integration            | Async     | Offload to model worker, async flows | [AI/ML Recipe](#integrating-with-ml-or-ai-model-workers)               |
+| Diagnostics & monitoring           | Any       | Debug, monitor, tune                 | [Diagnostics](#using-diagnostics--stats)                               |
+| Backpressure handling              | Any       | Buffer full, retry, async            | [Backpressure](#handling-backpressure-full-buffer)                     |
+
+---
+
+## Quick Reference: Common Patterns
+
+- **SPSC (Single-Producer, Single-Consumer):** Fastest, simplest, use for 1:1 thread comms.
+- **MPSC/MPMC (Multi-Producer/Consumer):** Use for scaling, fairness, and contention reduction.
+- **Async/AI/ML:** Use async iteration and workers for model inference or event-driven flows.
+- **Diagnostics:** Always monitor stats in staging/production for best results.
+- **Backpressure:** Always handle buffer full/empty signals to avoid data loss or stalls.
 
 ---
 
@@ -166,10 +187,7 @@ while (true) {
 }
 ```
 
-<Callout type="tip" title="Tip: Fair Sharing & Contention">
-  For fair sharing and less contention, map producer/consumer IDs to segments
-  using <code>(id % segments)</code> when creating the channel.
-</Callout>
+> For fair sharing and less contention, map producer/consumer IDs to segments using <code>(id % segments)</code> when creating the channel.
 
 ---
 
@@ -260,6 +278,43 @@ while (!channel.send(payload)) {
   If the buffer is full, the producer must wait, retry, or drop messages as
   appropriate for your workload.
 </Callout>
+
+---
+
+## Common Pitfalls & Troubleshooting
+
+<Callout type="warning" title="Common Pitfalls">
+  <ul>
+    <li>
+      <strong>Buffer full, send fails:</strong> Always check the return value of{" "}
+      <code>send()</code> and handle backpressure (see{" "}
+      <a href="#handling-backpressure-full-buffer">Backpressure</a>).
+    </li>
+    <li>
+      <strong>Wrong concurrency mode:</strong> Use SPSC for 1:1, MPSC/MPMC for
+      scaling. Mismatched mode can cause errors.
+    </li>
+    <li>
+      <strong>SharedArrayBuffer issues:</strong> Ensure browser/Node.js supports
+      it and transfer buffers correctly.
+    </li>
+    <li>
+      <strong>Diagnostics not enabled:</strong> Use diagnostics in staging to
+      catch issues early.
+    </li>
+    <li>
+      <strong>Async gotchas:</strong> Use <code>sendAsync</code> and{" "}
+      <code>recvAsync</code> for non-blocking flows; avoid busy-wait in
+      production.
+    </li>
+    <li>
+      <strong>Segment mapping:</strong> For fairness, map IDs to segments using{" "}
+      <code>id % segments</code>.
+    </li>
+  </ul>
+</Callout>
+
+For advanced troubleshooting, see the [SP8D Troubleshooting Guide](/guides-and-howtos/troubleshooting) and [Slot State Machine Troubleshooting](/protocol-internals/slot-state-machine#troubleshooting--debugging-checklist).
 
 ---
 

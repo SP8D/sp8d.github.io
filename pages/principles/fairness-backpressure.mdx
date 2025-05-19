@@ -22,10 +22,7 @@ Fairness and backpressure are the backbone of robust, lock-free messaging in SP8
 
 # Fairness & Backpressure in SP8D
 
-<Callout type="info" title="Why This Matters">
-  SP8D’s approach to fairness and backpressure makes high-performance
-  concurrency “just click.” This page will show you how and why.
-</Callout>
+> SP8D’s approach to fairness and backpressure makes high-performance concurrency “just click.” This page will show you how and why.
 
 ## What Are Fairness & Backpressure?
 
@@ -64,7 +61,7 @@ flowchart TD
   the buffer.
 </sub>
 
-<Callout type="success" title="How to Read This Diagram">
+<Callout type="info" title="How to Read This Diagram">
   Producers push messages into the buffer. If the buffer is full, backpressure
   is signaled to producers (dashed lines). Consumers pop messages; if the buffer
   is empty, they must wait or retry. SP8D coordinates access to ensure fairness
@@ -73,26 +70,7 @@ flowchart TD
 
 ### Slot State Machine Fairness
 
-```mermaid
-flowchart TD
-    P1[Producer 1] -- Request Slot --> Buffer
-    P2[Producer 2] -- Request Slot --> Buffer
-    C1[Consumer 1] -- Request Slot --> Buffer
-    Buffer -- Grant Slot to Producer 1 --> P1
-    Buffer -- Grant Slot to Producer 2 --> P2
-    Buffer -- Grant Slot to Consumer 1 --> C1
-```
-
-<sub className="diagram-caption">
-  <strong>Diagram:</strong> This schematic illustrates how SP8D's slot state
-  machine grants access to producers and consumers in a fair, round-robin
-  manner, preventing starvation and ensuring every agent gets a turn.
-</sub>
-
-<Callout type="info" title="Fairness in Action">
-  SP8D's slot state machine ensures that all producers and consumers are granted
-  access in a fair, round-robin manner, preventing starvation.
-</Callout>
+For a complete explanation of how SP8D's slot state machine enforces fairness, round-robin access, and prevents starvation—including diagrams, advanced scenarios, and troubleshooting—see the [Slot State Machine](/protocol-internals/slot-state-machine#advanced-scenarios-multi-segment-mpmc-and-contention) documentation.
 
 ---
 
@@ -161,7 +139,7 @@ if (channel.diagnostics) {
 - **Tune buffer size:** Match your buffer size to your workload for optimal throughput.
 - **Pattern selection:** Choose the right concurrency model (SPSC, MPSC, MPMC) for your use case.
 
-<Callout type="tip" title="Pro Tip">
+<Callout type="warning" title="Pro Tip">
   Use diagnostics and live monitoring to catch fairness or backpressure issues
   before they impact production.
 </Callout>
@@ -235,7 +213,7 @@ for (let i = 0; i < 1000; i++) {
 }
 ```
 
-<Callout type="tip" title="Best Practice">
+<Callout type="info" title="Best Practice">
   Tune buffer size to absorb bursts, and use diagnostics to monitor for repeated
   backpressure signals. Consider smoothing input if possible.
 </Callout>
@@ -286,7 +264,7 @@ const stage2 = createMPMC();
 // ...pipeline setup...
 ```
 
-<Callout type="tip" title="Best Practice">
+<Callout type="info" title="Best Practice">
   Monitor each stage independently. Use diagnostics to ensure no stage becomes a
   bottleneck or source of unfairness.
 </Callout>

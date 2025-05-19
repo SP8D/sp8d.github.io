@@ -55,6 +55,18 @@ import { Callout } from "nextra/components";
 **Q:** How do I broadcast or use MPMC patterns?  
 **A:** Use MPMC mode for multi-producer/multi-consumer. See concurrency models for details.
 
+## What is the ABA Problem?
+
+The **ABA problem** is a classic bug in lock-free programming. It occurs when a memory location is changed from value A to B and back to A between two checks, making it appear unchanged to a thread using compare-and-swap (CAS). This can lead to subtle, hard-to-detect errors.
+
+**How does SP8D prevent ABA?**
+
+SP8D uses a **generation (cycle) tag** for each slot. This tag increments every time a slot is reclaimed or wraps around, so even if the slot’s status returns to its original value, the generation tag will be different. This ensures that CAS operations are always safe and reliable.
+
+## Slot State Machine & Protocol Internals
+
+For a complete explanation of the slot state machine—including slot lifecycle, state transitions, atomic operations, fairness, and recovery—see the [Slot State Machine](/protocol-internals/slot-state-machine) documentation.
+
 ## General
 
 **Q:** Still stuck or have another question?  
