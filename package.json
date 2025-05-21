@@ -1,11 +1,12 @@
 {
   "name": "sp8d-docs",
   "version": "1.0.0",
+  "type": "module",
   "main": "index.js",
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "postbuild": "next-sitemap && pagefind --site out --output-path out/_pagefind",
+    "postbuild": "node scripts/remove-nextra-suffix.js && next-sitemap && pagefind --site out --output-path out/_pagefind",
     "start": "next start",
     "test": "echo \"Error: no test specified\" && exit 1"
   },

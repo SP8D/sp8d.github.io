@@ -1,10 +1,10 @@
 /** @type {import('next-sitemap').IConfig} */
 
-module.exports = {
+export default {
   siteUrl: "https://sp8d.github.io",
   generateIndexSitemap: false,
   generateRobotsTxt: true,
-  changefreq: "daily",
+  changefreq: "weekly",
   priority: 0.7,
   outDir: "out",
 };
